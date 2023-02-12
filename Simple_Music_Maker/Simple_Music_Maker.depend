@@ -1,0 +1,24 @@
+# depslib dependency file v1.0
+1674307897 source:/home/matthaeus/Documents/CodeBlocks/Simple_Music_Maker/climain.cpp
+	<stdio.h>
+	<unistd.h>
+	<string.h>
+	<errno.h>
+	<fcntl.h>
+	<stdlib.h>
+	<pulse/simple.h>
+	<pulse/error.h>
+	<cmath>
+	"clifuncs.h"
+
+1674308032 /home/matthaeus/Documents/CodeBlocks/Simple_Music_Maker/clifuncs.h
+
+1676229739 source:/home/matthaeus/Documents/CodeBlocks/Simple_Music_Maker/Documents/CodeBlocks/Simple_Music_Maker/climain.cpp
+	<stdio.h>
+	<unistd.h>
+	<string.h>
+	<errno.h>
+	<fcntl.h>
+	<pulse/simple.h>
+	<pulse/error.h>
+
