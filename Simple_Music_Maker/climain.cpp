@@ -7,15 +7,20 @@
 #include <pulse/simple.h>
 #include <pulse/error.h>
 
-#define BUFSIZE 1024
+#include <vector>
+#include <cmath>
 
-int main(int argc, char*argv[]) {
+#include "clifuncs.h"
+
+#define BUFSIZE 44100
+
+int main(int argc, char* argv[]) {
 
     /* The Sample format to use */
     static const pa_sample_spec ss = {
-        .format = PA_SAMPLE_S16LE,
+        .format = PA_SAMPLE_U8,
         .rate = 44100,
-        .channels = 2
+        .channels = 1
     };
 
     pa_simple *s = NULL;
@@ -27,10 +32,20 @@ int main(int argc, char*argv[]) {
         return 1;
     }
 
-    uint8_t buf[BUFSIZE];
+    /* Create buffer ... */
+    std::vector<uint8_t> buf;
+
+    /* Fill buffer with arguments from cli */
+
+    for (uint8_t tone = 0; tone < (argc - 1) / 2; tone ++) {
+        const float frequency = atof(argv[(tone + 1) * 2 - 1]);
+        const float duration = atof(argv[(tone + 1) * 2]);
+
+        sine_wave_to_buffer(buf, BUFSIZE, frequency, duration);
+    }
 
     /* ... and play it */
-    if (pa_simple_write(s, buf, (size_t) BUFSIZE, &error) < 0) {
+    if (pa_simple_write(s, buf.data(), (size_t) buf.size(), &error) < 0) {
         fprintf(stderr, __FILE__": pa_simple_write() failed: %s\n", pa_strerror(error));
         return 1;
     }
