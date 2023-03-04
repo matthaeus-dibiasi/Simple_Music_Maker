@@ -22,7 +22,7 @@
 	<pulse/simple.h>
 	<pulse/error.h>
 
-1677336750 source:/home/matthaeus/Documents/CodeBlocks/Simple_Music_Maker/Simple_Music_Maker/climain.cpp
+1677922280 source:/home/matthaeus/Documents/CodeBlocks/Simple_Music_Maker/Simple_Music_Maker/climain.cpp
 	<stdio.h>
 	<unistd.h>
 	<string.h>
@@ -35,5 +35,5 @@
 	<regex>
 	"clifuncs.h"
 
-1677061831 /home/matthaeus/Documents/CodeBlocks/Simple_Music_Maker/Simple_Music_Maker/clifuncs.h
+1677590508 /home/matthaeus/Documents/CodeBlocks/Simple_Music_Maker/Simple_Music_Maker/clifuncs.h
 

@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <string.h>
-#include <errno.h>
 #include <fcntl.h>
 
 #include <pulse/simple.h>
@@ -13,12 +9,13 @@
 
 #include "clifuncs.h"
 
-#define BUFSIZE 44100
+#define SAMPLE_RATE 44100
 
-int main(int argc, char* argv[]) {
-
-    /* The Sample format to use */
-    static const pa_sample_spec ss = {
+int main(int argc, char* argv[])
+{
+    /* Sample Format for playback */
+    static const pa_sample_spec ss =
+    {
         .format = PA_SAMPLE_U8,
         .rate = 44100,
         .channels = 1
@@ -28,7 +25,8 @@ int main(int argc, char* argv[]) {
     int error;
 
     /* Create a new playback stream */
-    if (!(s = pa_simple_new(NULL, argv[0], PA_STREAM_PLAYBACK, NULL, "playback", &ss, NULL, NULL, &error))) {
+    if (!(s = pa_simple_new(NULL, argv[0], PA_STREAM_PLAYBACK, NULL, "playback", &ss, NULL, NULL, &error)))
+    {
         fprintf(stderr, __FILE__": pa_simple_new() failed: %s\n", pa_strerror(error));
         return 1;
     }
@@ -42,22 +40,23 @@ int main(int argc, char* argv[]) {
     int file_descriptor;
 
     // Fill buffer with frequencies or samples from wave files
-    for (;;) {
-
+    for (;;)
+    {
         /* Check if the argument is a file path */
         std::string argument(argv[argument_counter]);
         found_match = std::regex_match(argument, rgx_path);
 
-        // If argument is a file path ...
-        if (found_match) {
-
+        if (found_match)
+        {
             /* replace STDIN with the specified file */
-            if ((file_descriptor = open(argv[1], O_RDONLY)) < 0) {
+            if ((file_descriptor = open(argv[argument_counter], O_RDONLY)) < 0)
+            {
                 fprintf(stderr, __FILE__": open() failed: %s\n", strerror(errno));
                 return 1;
             }
 
-            if (dup2(file_descriptor, STDIN_FILENO) < 0) {
+            if (dup2(file_descriptor, STDIN_FILENO) < 0)
+            {
                 fprintf(stderr, __FILE__": dup2() failed: %s\n", strerror(errno));
                 return 1;
             }
@@ -68,8 +67,8 @@ int main(int argc, char* argv[]) {
             read(STDIN_FILENO, sample_buf.data(), sample_buf.size());
 
             // Convert to data with only one channel
-            for (int sample = 0; sample < sample_buf.size(); sample++) {
-
+            for (int sample = 0; sample < sample_buf.size(); sample++)
+            {
                 sample_buf[sample] = round((sample_buf[sample] + sample_buf[sample + 1]) / 2); // average out the channels into one
                 sample_buf.erase(sample_buf.begin() + sample); // remove the second channel
             }
@@ -78,20 +77,18 @@ int main(int argc, char* argv[]) {
             buf.resize(buf.size() + sample_buf.size());
 
             // Move sample data to main buffer
-            for (int sample = 0; sample < sample_buf.size(); sample++) {
-
+            for (int sample = 0; sample < sample_buf.size(); sample++)
+            {
                 std::move(sample_buf.begin(), sample_buf.end(), buf.end() - sample_buf.size());
             }
 
-            // Reallocate erased memory by erase function
+            // Reallocate erased memory
             sample_buf.resize(2 * sample_buf.size());
 
             argument_counter++;
         }
-
-        // If argument is a tone ...
-        else {
-
+        else
+        {
             const float frequency = atof(argv[argument_counter]);
             const float duration = atof(argv[argument_counter + 1]);
 
@@ -104,13 +101,15 @@ int main(int argc, char* argv[]) {
     }
 
     /* Play the main buffer */
-    if (pa_simple_write(s, buf.data(), (size_t) buf.size(), &error) < 0) {
+    if (pa_simple_write(s, buf.data(), (size_t) buf.size(), &error) < 0)
+    {
         fprintf(stderr, __FILE__": pa_simple_write() failed: %s\n", pa_strerror(error));
         return 1;
     }
 
     /* Make sure that every single sample was played */
-    if (pa_simple_drain(s, &error) < 0) {
+    if (pa_simple_drain(s, &error) < 0)
+    {
         fprintf(stderr, __FILE__": pa_simple_drain() failed: %s\n", pa_strerror(error));
         return 1;
     }
