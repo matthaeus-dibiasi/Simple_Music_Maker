@@ -13,10 +13,10 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add option="`pkg-config gtkmm-3.0 --cflags`" />
 				</Compiler>
 				<Linker>
-					<Add option="-lpulse" />
-					<Add option="-lpulse-simple" />
+					<Add option="`pkg-config gtkmm-3.0 --libs`" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -35,8 +35,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="clifuncs.h" />
-		<Unit filename="climain.cpp" />
+		<Unit filename="guimain.cpp" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
