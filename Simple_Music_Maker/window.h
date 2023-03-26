@@ -8,6 +8,8 @@
 
 #include <vector>
 
+#include "drawingarea.h"
+
 
 class Window : public Gtk::Window
 {
@@ -15,24 +17,29 @@ class Window : public Gtk::Window
         Window();
         virtual ~Window();
 
+    private:
+        static const pa_sample_spec ss;
+        int error;
+
+        pa_simple *s = NULL;
+
+        std::vector<uint8_t> buf;
+
+        void pulse_audio_init();
+
     protected:
         // Signal handlers
         void on_btn_play_sound();
 
         // Child widgets
-        Gtk::Box box;
+        Gtk::Box box_parent;
+        Gtk::Box box_play_sound;
+        Gtk::Box box_drawingarea;
+
         Gtk::Button btn_play_sound;
         Gtk::Entry entry_frequency;
         Gtk::Entry entry_duration;
-
-    private:
-        static const pa_sample_spec ss;
-        pa_simple *s = NULL;
-        int error;
-
-        std::vector<uint8_t> buf;
-
-        void pulse_audio_init();
+        DrawingArea drawingArea;
 };
 
-#endif
+#endif // GTKMM_WINDOW_H

@@ -20,4 +20,4 @@ void sine_wave_to_buffer(std::vector<uint8_t>& buf,
     }
 }
 
-#endif
+#endif // SOUNDFUNCS_H

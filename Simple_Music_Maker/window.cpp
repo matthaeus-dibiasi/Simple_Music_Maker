@@ -4,33 +4,30 @@
 
 Window::Window()
 {
+    /* Window */
     set_default_size(800, 800);
 
+    /* DrawingArea box */
+    box_drawingarea.pack_start(drawingArea);
+
+    /* PlaySound box */
     btn_play_sound.set_label("Play Sound");
-    btn_play_sound.set_margin_top(350);
-    btn_play_sound.set_margin_bottom(350);
     btn_play_sound.signal_clicked().connect(sigc::mem_fun(*this, &Window::on_btn_play_sound));
 
     entry_frequency.set_text("100");
-    entry_frequency.set_margin_top(350);
-    entry_frequency.set_margin_bottom(350);
-
     entry_duration.set_text("1");
-    entry_duration.set_margin_top(350);
-    entry_duration.set_margin_bottom(350);
 
-    add(box);
+    box_play_sound.pack_start(btn_play_sound);
+    box_play_sound.pack_start(entry_frequency);
+    box_play_sound.pack_start(entry_duration);
 
-    box.pack_start(btn_play_sound);
-    btn_play_sound.show();
+    /* Parent box */
+    box_parent.set_orientation(Gtk::ORIENTATION_VERTICAL);
+    box_parent.pack_start(box_drawingarea);
+    box_parent.pack_start(box_play_sound);
 
-    box.pack_start(entry_frequency);
-    entry_frequency.show();
-
-    box.pack_start(entry_duration);
-    entry_duration.show();
-
-    box.show();
+    add(box_parent);
+    show_all();
 
     pulse_audio_init();
 }
@@ -61,4 +58,7 @@ void Window::on_btn_play_sound()
 
     pa_simple_write(s, buf.data(), (size_t) buf.size(), &error);
     pa_simple_drain(s, &error);
+
+    drawingArea.set_data(frequency, duration);
+    drawingArea.queue_draw();
 }
