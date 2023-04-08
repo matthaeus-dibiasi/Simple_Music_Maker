@@ -9,6 +9,7 @@ Window::Window()
 
     /* DrawingArea box */
     box_drawingarea.pack_start(drawingArea);
+    drawingArea.signal_draw().connect(sigc::mem_fun(drawingArea, &DrawingArea::draw_frequency));
 
     /* PlaySound box */
     btn_play_sound.set_label("Play Sound");
@@ -21,10 +22,16 @@ Window::Window()
     box_play_sound.pack_start(entry_frequency);
     box_play_sound.pack_start(entry_duration);
 
+    /* Interface box */
+    box_interface.pack_start(drawingArea_interface);
+    drawingArea_interface.signal_draw().connect(sigc::mem_fun(drawingArea_interface, &DrawingArea::update_grid));
+    drawingArea_interface.signal_button_press_event().connect(sigc::mem_fun(drawingArea_interface, &DrawingArea::on_click));
+
     /* Parent box */
     box_parent.set_orientation(Gtk::ORIENTATION_VERTICAL);
     box_parent.pack_start(box_drawingarea);
     box_parent.pack_start(box_play_sound);
+    box_parent.pack_start(box_interface);
 
     add(box_parent);
     show_all();

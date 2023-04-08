@@ -7500,20 +7500,22 @@
 	<sigc++/sigc++.h>
 	<gtkmm/scalebutton.h>
 
-1679833079 /home/matthaeus/Documents/CodeBlocks/Simple_Music_Maker/Simple_Music_Maker/window.h
+1680877105 /home/matthaeus/Documents/CodeBlocks/Simple_Music_Maker/Simple_Music_Maker/window.h
 	<gtkmm.h>
 	<pulse/simple.h>
 	<pulse/error.h>
 	<vector>
 	"drawingarea.h"
 
-1679833204 source:/home/matthaeus/Documents/CodeBlocks/Simple_Music_Maker/Simple_Music_Maker/window.cpp
+1680943670 source:/home/matthaeus/Documents/CodeBlocks/Simple_Music_Maker/Simple_Music_Maker/window.cpp
 	"window.h"
 	"soundfuncs.h"
 
 1679821400 /home/matthaeus/Documents/CodeBlocks/Simple_Music_Maker/Simple_Music_Maker/soundfuncs.h
 
-1679819477 source:/home/matthaeus/Documents/CodeBlocks/Simple_Music_Maker/Simple_Music_Maker/drawingarea.cpp
+1680960573 source:/home/matthaeus/Documents/CodeBlocks/Simple_Music_Maker/Simple_Music_Maker/drawingarea.cpp
+	"drawingarea.h"
 
-1679833324 /home/matthaeus/Documents/CodeBlocks/Simple_Music_Maker/Simple_Music_Maker/drawingarea.h
+1680961773 /home/matthaeus/Documents/CodeBlocks/Simple_Music_Maker/Simple_Music_Maker/drawingarea.h
+	<gtkmm.h>
 

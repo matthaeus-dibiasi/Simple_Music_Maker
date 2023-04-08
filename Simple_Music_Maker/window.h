@@ -33,13 +33,15 @@ class Window : public Gtk::Window
 
         // Child widgets
         Gtk::Box box_parent;
-        Gtk::Box box_play_sound;
         Gtk::Box box_drawingarea;
+        Gtk::Box box_play_sound;
+        Gtk::Box box_interface;
 
+        DrawingArea drawingArea;
+        DrawingArea drawingArea_interface;
         Gtk::Button btn_play_sound;
         Gtk::Entry entry_frequency;
         Gtk::Entry entry_duration;
-        DrawingArea drawingArea;
 };
 
 #endif // GTKMM_WINDOW_H

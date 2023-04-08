@@ -37,6 +37,8 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="drawingarea.cpp" />
+		<Unit filename="drawingarea.h" />
 		<Unit filename="guimain.cpp" />
 		<Unit filename="soundfuncs.h" />
 		<Unit filename="window.cpp" />
