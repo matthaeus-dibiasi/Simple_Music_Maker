@@ -8,14 +8,16 @@ class DrawingArea : public Gtk::DrawingArea
     public:
         DrawingArea();
 
-        void set_data(float frequency, float duration);
         bool on_click(GdkEventButton* event);
 
         bool draw_grid(const Cairo::RefPtr<Cairo::Context>& cr);
         bool fill_grid(const Cairo::RefPtr<Cairo::Context>& cr);
         bool update_grid(const Cairo::RefPtr<Cairo::Context>& cr);
 
-        bool draw_frequency(const Cairo::RefPtr<Cairo::Context>& cr);
+        bool draw_tones(const Cairo::RefPtr<Cairo::Context>& cr);
+
+        std::vector<int> get_sound_data();
+        void set_sound_data(const std::vector<int> sound_data);
 
     private:
         double x_mouse_;
@@ -24,13 +26,18 @@ class DrawingArea : public Gtk::DrawingArea
         int width;
         int height;
 
-        int max_rows = 10;
+        int max_rows = 3;
         int max_columns = 10;
 
-        std::vector<std::vector<std::vector<int>>> grid_points;
+        int x_index = 0;
+        int y_index = 0;
 
-        float frequency_;
-        float duration_;
+        std::vector<std::vector<std::vector<int>>> grid_points;
+        std::vector<std::vector<int>> grid_tone;
+        std::vector<std::vector<bool>> grid_state;
+        std::vector<int> grid_tone_frequency;
+
+        void set_field_state_from_click();
 };
 
 #endif // GTKMM_DRAWINGAREA_H

@@ -9,23 +9,42 @@ Window::Window()
 
     /* DrawingArea box */
     box_drawingarea.pack_start(drawingArea);
-    drawingArea.signal_draw().connect(sigc::mem_fun(drawingArea, &DrawingArea::draw_frequency));
+    drawingArea.signal_draw().connect(sigc::mem_fun(drawingArea, &DrawingArea::draw_tones));
 
     /* PlaySound box */
     btn_play_sound.set_label("Play Sound");
     btn_play_sound.signal_clicked().connect(sigc::mem_fun(*this, &Window::on_btn_play_sound));
 
-    entry_frequency.set_text("100");
-    entry_duration.set_text("1");
-
     box_play_sound.pack_start(btn_play_sound);
-    box_play_sound.pack_start(entry_frequency);
-    box_play_sound.pack_start(entry_duration);
 
     /* Interface box */
-    box_interface.pack_start(drawingArea_interface);
-    drawingArea_interface.signal_draw().connect(sigc::mem_fun(drawingArea_interface, &DrawingArea::update_grid));
-    drawingArea_interface.signal_button_press_event().connect(sigc::mem_fun(drawingArea_interface, &DrawingArea::on_click));
+    box_interface.pack_start(drawingArea_interface_1);
+    /*box_interface.pack_start(drawingArea_interface_2);
+    box_interface.pack_start(drawingArea_interface_3);*/
+
+    drawingArea_interface_1.signal_draw().connect(sigc::mem_fun(drawingArea_interface_1, &DrawingArea::update_grid));
+    drawingArea_interface_1.signal_button_press_event().connect(sigc::mem_fun(drawingArea_interface_1, &DrawingArea::on_click));
+
+    /*drawingArea_interface_2.signal_draw().connect(sigc::mem_fun(drawingArea_interface_2, &DrawingArea::update_grid));
+    drawingArea_interface_2.signal_button_press_event().connect(sigc::mem_fun(drawingArea_interface_2, &DrawingArea::on_click));
+
+    drawingArea_interface_3.signal_draw().connect(sigc::mem_fun(drawingArea_interface_3, &DrawingArea::update_grid));
+    drawingArea_interface_3.signal_button_press_event().connect(sigc::mem_fun(drawingArea_interface_3, &DrawingArea::on_click));*/
+
+    drawingArea_interface_1.set_margin_start(10);
+    drawingArea_interface_1.set_margin_end(10);
+    drawingArea_interface_1.set_margin_top(10);
+    drawingArea_interface_1.set_margin_bottom(10);
+
+    /*drawingArea_interface_2.set_margin_start(10);
+    drawingArea_interface_2.set_margin_end(10);
+    drawingArea_interface_2.set_margin_top(10);
+    drawingArea_interface_2.set_margin_bottom(10);
+
+    drawingArea_interface_3.set_margin_start(10);
+    drawingArea_interface_3.set_margin_end(10);
+    drawingArea_interface_3.set_margin_top(10);
+    drawingArea_interface_3.set_margin_bottom(10);*/
 
     /* Parent box */
     box_parent.set_orientation(Gtk::ORIENTATION_VERTICAL);
@@ -58,14 +77,17 @@ void Window::pulse_audio_init()
 
 void Window::on_btn_play_sound()
 {
-    const float frequency = atof(entry_frequency.get_text().data());
-    const float duration = atof(entry_duration.get_text().data());
-
-    sine_wave_to_buffer(buf, 44100, frequency, duration);
-
+    sine_wave_to_buffer(buf, 44100, 500, 1);
     pa_simple_write(s, buf.data(), (size_t) buf.size(), &error);
     pa_simple_drain(s, &error);
 
-    drawingArea.set_data(frequency, duration);
+    std::vector<int> sound_data = drawingArea_interface_1.get_sound_data();
+
+    /*for (int i = 0; i < sound_data.size(); i++)
+    {
+        printf("%d\n", sound_data[i]);
+    }*/
+
+    drawingArea.set_sound_data(sound_data);
     drawingArea.queue_draw();
 }

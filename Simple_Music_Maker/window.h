@@ -38,10 +38,10 @@ class Window : public Gtk::Window
         Gtk::Box box_interface;
 
         DrawingArea drawingArea;
-        DrawingArea drawingArea_interface;
+        DrawingArea drawingArea_interface_1;
+        /*DrawingArea drawingArea_interface_2;
+        DrawingArea drawingArea_interface_3;*/
         Gtk::Button btn_play_sound;
-        Gtk::Entry entry_frequency;
-        Gtk::Entry entry_duration;
 };
 
 #endif // GTKMM_WINDOW_H
